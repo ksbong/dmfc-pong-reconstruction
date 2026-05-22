@@ -1,0 +1,57 @@
+# uv / Python environment
+.venv/
+
+# Keep uv.lock for reproducibility
+# Do NOT ignore uv.lock
+
+# Raw / processed data
+data/*
+!data/README.md
+
+# Outputs
+outputs/*
+!outputs/
+!outputs/figures/
+!outputs/figures/.gitkeep
+!outputs/logs/
+!outputs/logs/.gitkeep
+
+# Large scientific data files
+*.pkl
+*.pickle
+*.mat
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+
+# Unpublished manuscripts / documents
+*.pdf
+*.docx
+*.pptx
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.*

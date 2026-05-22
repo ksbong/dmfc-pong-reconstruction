@@ -1,0 +1,22 @@
+[project]
+name = "dmfc-pong-reconstruction"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "h5py>=3.16.0",
+    "matplotlib>=3.10.9",
+    "numpy>=2.4.6",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.3",
+    "scikit-learn>=1.8.0",
+    "scipy>=1.17.1",
+    "tqdm>=4.67.3",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "jupyter>=1.1.1",
+    "notebook>=7.5.6",
+    "ruff>=0.15.14",
+]
