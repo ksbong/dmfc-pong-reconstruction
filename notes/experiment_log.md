@@ -24,3 +24,25 @@ The next step should be figure mapping and lightweight metadata inspection rathe
 **Next step**
 
 Start from `Source_Data.xlsx`, `valid_meta_sample_full.pkl`, and the figure notebooks in `code/`.
+
+### 2026-05-24
+
+**Goal**
+
+Inspect the structure of `Source_Data.xlsx`.
+
+**What I tried**
+
+- Opened the workbook with pandas.
+- Listed all sheet names.
+- Previewed `Figure 2C` with `header=None`.
+- Built a sheet-level summary table with shape, non-empty cell count, and preview values.
+
+**Result**
+
+The workbook contains 44 sheets organized by figure panels.  
+It appears to be figure-level source data rather than raw neural recording data.
+
+**Next step**
+
+Classify sheets by analysis type and map them to the corresponding figure notebooks/scripts.
