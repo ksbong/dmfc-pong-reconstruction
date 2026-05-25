@@ -61,11 +61,10 @@ Expected local structure:
 ```text
 data/
 └── external/
-    └── MentalPong/
-        ├── analyses/
-        ├── code/
-        ├── data/
-        └── README.md
+      ├── analyses/
+      ├── code/
+      ├── data/
+      └── README.md
 ```
 
 ## Environment
