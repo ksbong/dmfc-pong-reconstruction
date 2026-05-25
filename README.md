@@ -105,9 +105,19 @@ Current reconstruction focus:
 
 - `valid_meta_sample_full.pkl` contains 200 task conditions with `x0`, `y0`, `dx`, `dy`, and `n_bounce`.
 - These variables are sufficient to reconstruct task-coordinate ball trajectories with wall reflection.
-- The reconstructed full 200-condition trajectory set qualitatively matches the structure of Figure 2B.
-- The paper's neurophysiology figures use a 79-condition subset, so the exact subset index still needs to be identified.
-- `Source_Data.xlsx` appears to be figure-panel-level source data and is useful for validation / answer-checking rather than primary reconstruction.
+- The released DMFC 50 ms dataset contains a 79-condition neurophysiology subset in `dmfc_50ms["meta"]`.
+- `behavioral_responses` contains visible and occluded behavioral arrays with shape `(79, 100)`.
+- Figure 1C right-panel tracking errors can be recomputed from:
+  - `ball_pos_x`, `ball_pos_y`
+  - `eye_h`, `eye_v`
+  - `paddle_pos_y`
+  - `target_y`
+  - `t_from_occ`
+- The published Figure 1C example conditions were matched to DMFC condition indices:
+  - Condition #1 → `24`
+  - Condition #2 → `73`
+  - Condition #3 → `51`
+- `Source_Data.xlsx` is useful as a validation reference and for identifying published example conditions, but analysis reconstruction should rely on released metadata and behavioral/neural arrays whenever possible.
 
 ## Directory Structure
 
@@ -126,7 +136,8 @@ outputs/     Local-only figures and logs, not tracked by Git
 |---|---|
 | `00_data_inspection.ipynb` | Initial environment and data-path check |
 | `01_source_data_inspection.ipynb` | Workbook-level inspection of `Source_Data.xlsx` |
-| `02_fig1_fig2_analysis_reconstruction_map.ipynb` | Metadata-based reconstruction planning for Figure 1 and Figure 2 |
+| `02_fig1_fig2_analysis_reconstruction_map.ipynb` | Metadata and behavior-based reconstruction planning for Figure 1 and Figure 2 |
+| `03_fig2c_neural_response_inspection.ipynb` | Initial inspection of neural response arrays for Figure 2C |
 
 ## Progress Log
 
@@ -135,21 +146,20 @@ outputs/     Local-only figures and logs, not tracked by Git
 | 2026-05-22 | Initialized repository | Set up uv-based reconstruction workspace |
 | 2026-05-23 | Organized local MentalPong data | Stored external files locally under `data/external/MentalPong/` without tracking data files in Git |
 | 2026-05-24 | Inspected `Source_Data.xlsx` | Confirmed workbook is organized by figure panels |
-| 2026-05-25 | Started analysis-level reconstruction | Loaded metadata, resolved pandas/pickle compatibility, and reconstructed 200-condition ball trajectories from `x0`, `y0`, `dx`, `dy`, and `n_bounce` |
+| 2026-05-25 | Reconstructed Figure 1C behavior components | Recomputed tracking-error summary and matched example conditions to DMFC indices `[24, 73, 51]` |
 
 ## Next Steps
 
-- Identify the exact 79-condition subset used for neurophysiology analyses.
-- Compare reconstructed trajectories against Figure 2B reference values.
-- Search for behavioral variables required for Figure 1C:
-  - ball position
-  - eye position
-  - paddle position
-  - target endpoint
-  - occlusion timing
-- Inspect neural-response files for Figure 2C:
+- Polish Figure 1C visualization:
+  - time-colored eye points
+  - time-colored eye-ball tracking lines
+  - black eye-trajectory line
+  - correct paddle y-position overlay
+- Finalize Figure 1C notes and save the matched condition indices.
+- Continue Figure 2C neural-response inspection:
   - response matrix shape
+  - neuron axis
   - condition axis
   - time axis
-  - neuron/session metadata
+  - example neuron selection
 - Map Figure 2E/F to GLM and variance-partitioning outputs before attempting full reconstruction.
