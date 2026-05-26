@@ -86,3 +86,24 @@ Figure 1C is mostly reconstructed:
 - Add color-matched tracking-error lines.
 - Add eye trajectory line.
 - Then continue to Figure 2C neural-response inspection.
+
+### 2026-05-26 — Figure 2C neural response traces
+
+Reconstructed the visible and occluded epoch response traces for four example units:
+- P305
+- M39
+- P113
+- M294
+
+The labels correspond to subject-specific reliable neuron indices:
+- P: Perle
+- M: Mahler
+
+The response traces were drawn from `neural_responses_reliable["occ"]`.
+Visible and occluded epoch masks were reconstructed from behavioral time variables:
+- visible: `t_from_start >= 0` and `t_from_occ <= 0`
+- occluded: `t_from_occ >= 0` and `t_from_end <= 0`
+
+Current status:
+- Figure 2C trace columns reconstructed.
+- Spatial modulation heatmap column remains.
