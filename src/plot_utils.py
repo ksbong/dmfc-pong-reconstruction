@@ -187,3 +187,133 @@ def draw_fig2c_neural_response_occ_epoch(dmfc, neuron_no, neuron_id, ax=None):
         plt.show()
 
     return ax
+
+
+def draw_fig2c_spatial_modulation(
+    dmfc,
+    neuron_no,
+    neuron_id,
+    ax=None,
+    bins=40,
+    min_count=1,
+    cmap="viridis",
+):
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    created_fig = False
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(3, 3))
+        created_fig = True
+
+    single_neuron = dmfc["neural_responses_reliable"]["occ"][neuron_no]
+    bh = dmfc["behavioral_responses"]["occ"]
+
+    # Figure 1C matching 때처럼 plot coordinate는 보통 ball_pos 쪽이 더 직접적
+    x = np.asarray(bh["ball_pos_x"], dtype=float)
+    y = np.asarray(bh["ball_pos_y"], dtype=float)
+
+    if "start_end_pad0" in dmfc["masks"]["occ"]:
+        mask = dmfc["masks"]["occ"]["start_end_pad0"].astype(bool)
+    else:
+        mask = np.isfinite(x) & np.isfinite(y)
+
+    valid = (
+        mask
+        & np.isfinite(x)
+        & np.isfinite(y)
+        & np.isfinite(single_neuron)
+        & (x >= -10)
+        & (x <= 10)
+        & (y >= -10)
+        & (y <= 10)
+    )
+
+    x_flat = x[valid]
+    y_flat = y[valid]
+    r_flat = single_neuron[valid]
+
+    x_edges = np.linspace(-10, 10, bins + 1)
+    y_edges = np.linspace(-10, 10, bins + 1)
+
+    resp_sum, _, _ = np.histogram2d(
+        y_flat,
+        x_flat,
+        bins=[y_edges, x_edges],
+        weights=r_flat,
+    )
+
+    count, _, _ = np.histogram2d(
+        y_flat,
+        x_flat,
+        bins=[y_edges, x_edges],
+    )
+
+    heat = resp_sum / np.maximum(count, 1)
+    heat[count < min_count] = np.nan
+
+    im = ax.imshow(
+        heat,
+        origin="lower",
+        extent=[-10, 10, -10, 10],
+        aspect="equal",
+        cmap=cmap,
+        interpolation="nearest",
+    )
+
+    # occluder boundary 대략 표시
+    ax.axvline(5.625, color="black", linewidth=1.2)
+
+    ax.set_xlim(-10, 10)
+    ax.set_ylim(-10, 10)
+    ax.set_title(f"{neuron_id} - spatial")
+    ax.set_xlabel("x position (°)")
+    ax.set_ylabel("y position (°)")
+
+    if created_fig:
+        plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+        plt.show()
+
+    return im
+
+def draw_fig2c_example_row(dmfc, neuron_no, neuron_id=None, axes=None):
+    """
+    Draw one Fig. 2C-style row:
+    visible response / occluded response / spatial modulation.
+    """
+
+    if neuron_id is None:
+        neuron_id = neuron_no
+
+    created_fig = False
+
+    if axes is None:
+        fig, axes = plt.subplots(1, 3, figsize=(9, 3))
+        created_fig = True
+
+    draw_fig2c_neural_response_vis_epoch(
+        dmfc=dmfc,
+        neuron_no=neuron_no,
+        neuron_id=neuron_id,
+        ax=axes[0],
+    )
+
+    draw_fig2c_neural_response_occ_epoch(
+        dmfc=dmfc,
+        neuron_no=neuron_no,
+        neuron_id=neuron_id,
+        ax=axes[1],
+    )
+
+    im = draw_fig2c_spatial_modulation(
+        dmfc=dmfc,
+        neuron_no=neuron_no,
+        neuron_id=neuron_id,
+        ax=axes[2],
+    )
+
+    if created_fig:
+        plt.tight_layout()
+        plt.show()
+
+    return axes, im
