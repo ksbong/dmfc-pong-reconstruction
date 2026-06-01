@@ -303,6 +303,8 @@ dependencies = [
 dev = [
     { name = "ipykernel" },
     { name = "jupyter" },
+    { name = "nbconvert" },
+    { name = "nbformat" },
     { name = "notebook" },
     { name = "ruff" },
 ]
@@ -323,6 +325,8 @@ requires-dist = [
 dev = [
     { name = "ipykernel", specifier = ">=7.2.0" },
     { name = "jupyter", specifier = ">=1.1.1" },
+    { name = "nbconvert", specifier = ">=7.17.1" },
+    { name = "nbformat", specifier = ">=5.10.4" },
     { name = "notebook", specifier = ">=7.5.6" },
     { name = "ruff", specifier = ">=0.15.14" },
 ]
